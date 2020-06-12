@@ -50,7 +50,7 @@ test('submits correct values', async () => {
 
 })
 
-test('submits correct values with message and maxLength changed', async () => {
+test('submits correct values with message and firstName maxLength changed', async () => {
   const { container, getByText } = render(<ContactForm />)
   const firstName = container.querySelector('input[name="firstName"]');
   const lastName = container.querySelector('input[name="lastName"]');
@@ -86,7 +86,60 @@ test('submits correct values with message and maxLength changed', async () => {
   await waitFor(() => {
     fireEvent.change(message, {
       target: {
-        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet convallis nulla, vitae porttitor lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. "
+        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet convallis nulla, vitae porttitor lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
+      }
+    })
+  })
+
+  await waitFor(() => {
+    fireEvent.click(submit)
+  })
+
+ // wait for appearance
+ await waitFor(() => {
+  const pre = getByText("firstName", {exact: false})
+  expect(pre).toBeInTheDocument()
+},{timeout: 500})
+
+})
+
+test('submits correct values with message maxLength implemented', async () => {
+  const { container, getByText } = render(<ContactForm />)
+  const firstName = container.querySelector('input[name="firstName"]');
+  const lastName = container.querySelector('input[name="lastName"]');
+  const email = container.querySelector('input[name="email"]');
+  const message = container.querySelector('textarea[name=message]');
+  const submit = container.querySelector('input[type="submit"]');
+
+
+  await waitFor(() => {
+    fireEvent.change(firstName, {
+      target: {
+        value: "Testing"
+      }
+    })
+  })
+
+  await waitFor(() => {
+    fireEvent.change(lastName, {
+      target: {
+        value: "Henderson"
+      }
+    })
+  })
+
+  await waitFor(() => {
+    fireEvent.change(email, {
+      target: {
+        value: "mock@email.com"
+      }
+    })
+  })
+
+  await waitFor(() => {
+    fireEvent.change(message, {
+      target: {
+        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet convallis nulla, vitae porttitor lorem. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus."
       }
     })
   })
